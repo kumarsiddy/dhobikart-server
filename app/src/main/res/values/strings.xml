@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">KolKata Sub</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="drawer_opened">Drawerr is opened</string>
+    <string name="drawer_closed">Drawer is closed</string>
+    <string name="title_activity_time_table">Time Table</string>
+    <string name="title_activity_chooser">Select Station Name</string>
+    <string name="title_activity_exit">Exit</string>
+    <string name="title_activity_train_time_table">Schedule</string>
+    <string name="banner_ad_unit_id_main">ca-app-pub-1846401976471462/6065682966</string>
+    <string name="banner_ad_unit_id_main_new">ca-app-pub-1846401976471462/3439658638</string>
+    <string name="banner_ad_unit_id_traintable">ca-app-pub-1846401976471462/8292589430</string>
+    <string name="banner_ad_unit_id_traintimetable">ca-app-pub-1846401976471462/9769322639</string>
+    <string name="banner_ad_id_train_route_frag">ca-app-pub-1846401976471462/5358012042</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-1846401976471462/9486192237</string>
+    <string name="video_reward_id">ca-app-pub-1846401976471462/8678186243</string>
+    <string name="pnr_mid_ad_id">ca-app-pub-1846401976471462/8071326364</string>
+    <string name="train_schedule_mid_ad_id">ca-app-pub-1846401976471462/1097410829</string>
+    <string name="pnr_status_activity_ad_id">ca-app-pub-1846401976471462/2675884672</string>
+    <string name="ad_reward_remove_ad">ca-app-pub-1846401976471462/3585724787</string>
+    <string name="test_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_about">About</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="about_us"> We are small group of enthusiast developers working hard to give you good services. And We are happy working behind the scene.</string>
+    <string name="divider"><![CDATA[-->]]></string>
+    <string name="title_activity_download">Download Zone</string>
+    <string name="pref_previously_started">false</string>
+    <string name="title_activity_load">LoadActivity</string>
+    <string name="title_contact">Contact Us</string>
+    <string name="title_activity_about_us">About Us</string>
+    <string name="action_hide">Hide</string>
+    <string name="action_anchor_enable">Enable</string>
+    <string name="hello">Hello</string>
+    <string name="follow">Follow</string>
+    <string name="action_show">Show</string>
+    <string name="action_anchor_disable">Disable</string>
+    <string name="hist_string"><![CDATA[<---- Search History ---->]]></string>
+    <string name="preference_file_key">freaky.devs.kolkata</string>
+    <string name="isDarkMode">isDarkMode</string>
+    <string name="yeschange">Yes ! Change it</string>
+    <string name="openDrawer">Drawer Opened</string>
+    <string name="closeDrawer">Drawer Closed</string>
+    <string name="date">Date</string>
+    <string name="title_activity_train_list">TrainList</string>
+    <string name="capuccino">Cappuccino</string>
+    <string name="string_cofee"> We always work here to help you in your journey. We love to give good services to you.
+                                This is your turn now. Help developer buy a cup of coffee by viewing ad and Installing the App.</string>
+    <string name="kolkata_sub">KolKata Sub</string>
+    <string name="kolkata_sub_bengali">কলকাতা সাব</string>
+    <string name="mail_us_at">Mail us at:</string>
+    <string name="mymail">support@freakydevs.in</string>
+    <string name="string1">http://pnr.railyatri.in/api/pnr/journey/</string>
+    <string name="string2">/null/null/null/null/null.json</string>
+    <string name="noads">Remove Ad</string>
+    <string name="remove_ad">Do not like ads!! Here is an Offer, Watch an Ad and Install the App and remove the ads for 3 days.</string>
+</resources>

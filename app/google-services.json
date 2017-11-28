@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "129308529165",
+    "firebase_url": "https://white-imprint-117112.firebaseio.com",
+    "project_id": "white-imprint-117112",
+    "storage_bucket": "white-imprint-117112.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129308529165:android:c5d5f005bfa365e3",
+        "android_client_info": {
+          "package_name": "com.freakydevs.kolkatalocal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "129308529165-050ir15l5kmd17gqknd73d6bspcn8fu9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.freakydevs.kolkatalocal",
+            "certificate_hash": "eed61dc05ba0de13c70c3f04d048d481dbba16df"
+          }
+        },
+        {
+          "client_id": "129308529165-8n6a0g3hgpbks9r0n7i4rmf1n91ufchi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.freakydevs.kolkatalocal",
+            "certificate_hash": "494dc30f50d2cb261b356e4a63efb3e5fcc91bb5"
+          }
+        },
+        {
+          "client_id": "129308529165-spf8q7iviro97j6q2dicvsle3kktnu2n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCDhRsukv_WUfJlKhJ0VxE9WkJfT-qzjQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "129308529165-spf8q7iviro97j6q2dicvsle3kktnu2n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

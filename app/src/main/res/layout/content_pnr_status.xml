@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/relative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/back_pnr_details"
+        android:elevation="2dp">
+
+
+        <LinearLayout
+            android:id="@+id/linear1"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/back_pnr_details_top"
+            android:gravity="center"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/train_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12352"
+                android:textColor="@color/whitesnow"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/train_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_toRightOf="@+id/train_no"
+                android:text="PATNA-KOTA Express(Via Sultanpur)"
+                android:textColor="@color/whitesnow"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linear1"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/train_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="4dp"
+                android:text="3A"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/from_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/train_type"
+                android:layout_marginTop="4dp"
+                android:text="PNBE"
+                android:textColor="@color/colorPrimary"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/from_station"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/from_code"
+                android:layout_marginBottom="16dp"
+                android:text="PATNA JN"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_alignTop="@+id/from_code"
+                android:layout_centerHorizontal="true" />
+
+
+            <TextView
+                android:id="@+id/to_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/train_type"
+                android:layout_gravity="start"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_toRightOf="@+id/view"
+                android:text="KOTA"
+                android:textColor="@color/colorPrimary"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/to_station"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/to_code"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_toRightOf="@+id/view"
+                android:gravity="start"
+                android:text="Gaya"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/depart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/from_station"
+                android:text="Depart"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp" />
+
+
+            <TextView
+                android:id="@+id/depart_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/depart"
+                android:layout_marginBottom="8dp"
+                android:text="Depart Time"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/arrival"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/to_station"
+                android:layout_gravity="start"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_toRightOf="@+id/view"
+                android:text="Arrive"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/arrival_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/arrival"
+                android:layout_gravity="start"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_toRightOf="@+id/view"
+                android:text="Arrive Time"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relative"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/back_pnr_details"
+        android:elevation="2dp"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:id="@+id/linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="S. No"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="Booking Status"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Current Status"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/passenger_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linear"
+            android:overScrollMode="never" />
+
+        <TextView
+            android:id="@+id/chart_prepared"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/passenger_list"
+            android:layout_marginTop="8dp"
+            android:text="Chart Prepared"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
