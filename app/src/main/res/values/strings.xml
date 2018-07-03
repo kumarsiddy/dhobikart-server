@@ -57,4 +57,16 @@
     <string name="string2">/null/null/null/null/null.json</string>
     <string name="noads">Remove Ad</string>
     <string name="remove_ad">Do not like ads!! Here is an Offer, Watch an Ad and Install the App and remove the ads for 3 days.</string>
+
+    <string name="title_about_us">About Us</string>
+    <string name="text_please_wait">Please Wait…</string>
+    <string name="text_buy_a_cofee">Buy a Coffee</string>
+    <string name="text_thanks_for_treat">Thank You for Your treat \\uD83D\\uDE03</string>
+    <string name="text_get_in_touch">Get In Touch</string>
+    <string name="text_sending">Sending...</string>
+    <string name="text_fill_all_details">Please fill all details!</string>
+    <string name="text_fill_name">Please Fill Your Name!</string>
+    <string name="text_fill_email">Please Fill Your Email!</string>
+    <string name="text_fill_message">Please Fill Your Message!</string>
+    <string name="text_message_sent">Your Message has been sent!!</string>
 </resources>

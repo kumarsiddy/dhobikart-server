@@ -110,6 +110,11 @@ public class RemoveAd extends AppCompatActivity implements RewardedVideoAdListen
     }
 
     @Override
+    public void onRewardedVideoCompleted() {
+
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
     }

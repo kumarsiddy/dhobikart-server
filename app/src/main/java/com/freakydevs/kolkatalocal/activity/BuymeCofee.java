@@ -23,7 +23,6 @@ public class BuymeCofee extends AppCompatActivity implements RewardedVideoAdList
     private Context context;
     private RewardedVideoAd mRewardedVideoAd;
     private Button showAd;
-    private Toolbar toolbar;
     private KProgressHUD hud;
 
     @Override
@@ -40,12 +39,12 @@ public class BuymeCofee extends AppCompatActivity implements RewardedVideoAdList
         mRewardedVideoAd.setRewardedVideoAdListener(this);
         loadRewardedVideoAd();
         showAd = findViewById(R.id.show_ad);
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Buy a Coffee");
+        getSupportActionBar().setTitle(getString(R.string.text_buy_a_cofee));
 
         hud = KProgressHUD.create(context)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
@@ -54,7 +53,7 @@ public class BuymeCofee extends AppCompatActivity implements RewardedVideoAdList
                 .setDimAmount(0.6f);
 
         if (Internet.isConnected(context)) {
-            hud.setLabel("Please Wait...");
+            hud.setLabel(getString(R.string.text_please_wait));
             hud.show();
         }
     }
@@ -67,7 +66,7 @@ public class BuymeCofee extends AppCompatActivity implements RewardedVideoAdList
     @Override
     public void onRewardedVideoAdLoaded() {
 
-        if (hud.isShowing()) {
+        if (hud != null && hud.isShowing()) {
             hud.dismiss();
         }
 
@@ -91,7 +90,7 @@ public class BuymeCofee extends AppCompatActivity implements RewardedVideoAdList
     @Override
     public void onRewarded(RewardItem rewardItem) {
 
-        MyToast.showToast(context, "Thank You for Your treat \uD83D\uDE03");
+        MyToast.showToast(context, getString(R.string.text_thanks_for_treat));
         finish();
     }
 
@@ -102,9 +101,14 @@ public class BuymeCofee extends AppCompatActivity implements RewardedVideoAdList
 
     @Override
     public void onRewardedVideoAdFailedToLoad(int i) {
-        if (hud.isShowing()) {
+        if (hud != null && hud.isShowing()) {
             hud.dismiss();
         }
+    }
+
+    @Override
+    public void onRewardedVideoCompleted() {
+
     }
 
     @Override
@@ -117,7 +121,7 @@ public class BuymeCofee extends AppCompatActivity implements RewardedVideoAdList
                     mRewardedVideoAd.show();
                 } else if (Internet.isConnected(context)) {
                     loadRewardedVideoAd();
-                    hud.setLabel("Please Wait...");
+                    hud.setLabel(getString(R.string.text_please_wait));
                     hud.show();
                 }
             }
@@ -139,19 +143,21 @@ public class BuymeCofee extends AppCompatActivity implements RewardedVideoAdList
 
     @Override
     public void onResume() {
-        mRewardedVideoAd.resume(context);
         super.onResume();
+        mRewardedVideoAd.resume(context);
     }
 
     @Override
     public void onPause() {
-        mRewardedVideoAd.pause(context);
         super.onPause();
+        mRewardedVideoAd.pause(context);
     }
 
     @Override
     public void onDestroy() {
-        mRewardedVideoAd.destroy(context);
         super.onDestroy();
+        mRewardedVideoAd.destroy(context);
+        if (hud != null && hud.isShowing())
+            hud.dismiss();
     }
 }
