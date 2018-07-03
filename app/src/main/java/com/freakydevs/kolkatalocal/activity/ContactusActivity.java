@@ -18,7 +18,6 @@ import com.freakydevs.kolkatalocal.utils.Internet;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 public class ContactusActivity extends AppCompatActivity implements View.OnClickListener, ContactusInterface {
-    private Toolbar toolbar;
     private EditText editName, editEmail, editMessage;
     private Button sendButton;
     private Context context;
@@ -34,11 +33,11 @@ public class ContactusActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void initView() {
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Get In Touch");
+        getSupportActionBar().setTitle(getString(R.string.text_get_in_touch));
         editName = findViewById(R.id.edit_name);
         editEmail = findViewById(R.id.edit_email);
         editMessage = findViewById(R.id.edit_message);
@@ -47,7 +46,7 @@ public class ContactusActivity extends AppCompatActivity implements View.OnClick
         sendButton.setOnClickListener(this);
         hud = KProgressHUD.create(context)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                .setLabel("Sending...")
+                .setLabel(getString(R.string.text_sending))
                 .setCancellable(true)
                 .setAnimationSpeed(2)
                 .setDimAmount(0.6f);
@@ -67,25 +66,31 @@ public class ContactusActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
+        if (Internet.isConnected(context) && performValidation())
+            new MailSenderAsync(context).execute(editName.getText().toString(), editEmail.getText().toString(), editMessage.getText().toString());
+    }
 
+    private boolean performValidation() {
         boolean isNameEmpty, isEmailEmpty, isMessageEmpty;
 
         isNameEmpty = editName.getText().toString().isEmpty();
         isEmailEmpty = editEmail.getText().toString().isEmpty();
         isMessageEmpty = editMessage.getText().toString().isEmpty();
 
-
         if (isNameEmpty && isEmailEmpty && isMessageEmpty) {
-            MySnackBar.show(context, parentLayout, "Please fill all details!");
+            MySnackBar.show(context, parentLayout, getString(R.string.text_fill_all_details));
+            return false;
         } else if (isNameEmpty) {
-            MySnackBar.show(context, parentLayout, "Please Fill Your Name!");
+            MySnackBar.show(context, parentLayout, getString(R.string.text_fill_name));
+            return false;
         } else if (isEmailEmpty) {
-            MySnackBar.show(context, parentLayout, "Please Fill Your Email!");
+            MySnackBar.show(context, parentLayout, getString(R.string.text_fill_email));
+            return false;
         } else if (isMessageEmpty) {
-            MySnackBar.show(context, parentLayout, "Please Fill Your Message!");
-        } else if (Internet.isConnected(context)) {
-            new MailSenderAsync(context).execute(editName.getText().toString(), editEmail.getText().toString(), editMessage.getText().toString());
+            MySnackBar.show(context, parentLayout, getString(R.string.text_fill_message));
+            return false;
         }
+        return true;
     }
 
     @Override
@@ -96,11 +101,19 @@ public class ContactusActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void afterSend() {
-        hud.dismiss();
-        MySnackBar.show(context, parentLayout, "Your Message has been sent!!");
+        if (hud != null && hud.isShowing())
+            hud.dismiss();
+        MySnackBar.show(context, parentLayout, getString(R.string.text_message_sent));
         sendButton.setClickable(true);
         editMessage.setText("");
         editName.setText("");
         editEmail.setText("");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (hud != null && hud.isShowing())
+            hud.dismiss();
     }
 }
