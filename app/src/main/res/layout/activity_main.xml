@@ -49,7 +49,7 @@
             android:elevation="4dp"
             android:visibility="gone"
             app:adSize="SMART_BANNER"
-            app:adUnitId="@string/test_banner_ad_unit_id"
+            app:adUnitId="@string/banner_ad_unit_id_main_new"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />

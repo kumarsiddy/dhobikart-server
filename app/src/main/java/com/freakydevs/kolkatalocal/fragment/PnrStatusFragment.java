@@ -98,8 +98,8 @@ public class PnrStatusFragment extends Fragment implements View.OnClickListener,
 
     private void initAdView() {
         if (SharedPreferenceManager.isShowAd(context.getApplicationContext())) {
-            mAdView.setAdListener(new CustomAdListener(getContext(), mAdView));
             AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.setAdListener(new CustomAdListener(getContext(), mAdView));
             mAdView.loadAd(adRequest);
         } else {
             mAdView.setVisibility(View.GONE);
