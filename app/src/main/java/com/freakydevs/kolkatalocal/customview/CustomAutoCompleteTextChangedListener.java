@@ -1,5 +1,6 @@
 package com.freakydevs.kolkatalocal.customview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import com.freakydevs.kolkatalocal.interfaces.SearchInterface;
 /**
  * Created by PURUSHOTAM on 03-09-2015.
  */
+@SuppressLint("clickableviewaccessibility")
 public class CustomAutoCompleteTextChangedListener implements TextWatcher {
     public static final String TAG = "CustomAutoCompleteTextChangedListener.java";
     private Context context;
@@ -59,12 +61,6 @@ public class CustomAutoCompleteTextChangedListener implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence userInput, int start, int before, int count) {
-        if (isFrom) {
-            customAutoCompleteView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.from_icon, 0, 0, 0);
-        } else {
-            customAutoCompleteView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.to_icon, 0, 0, 0);
-        }
-
         searchInterface.fillData(userInput.toString());
     }
 
