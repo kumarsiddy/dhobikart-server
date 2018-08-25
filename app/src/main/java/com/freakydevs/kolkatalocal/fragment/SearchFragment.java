@@ -169,7 +169,6 @@ public class SearchFragment extends Fragment implements SearchInterface, View.On
     private void hideKeyboard() {
         InputMethodManager in = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         in.hideSoftInputFromWindow(to.getApplicationWindowToken(), 0);
-
     }
 
     private void showKeyboard() {
