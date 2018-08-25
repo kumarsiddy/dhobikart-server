@@ -110,12 +110,10 @@ public class SearchFragment extends Fragment implements SearchInterface, View.On
         editDate = view.findViewById(R.id.edit_date);
 
         from = view.findViewById(R.id.edit_from);
-        from.setCompoundDrawablesWithIntrinsicBounds(R.drawable.from_icon, 0, 0, 0);
         CustomAutoCompleteTextChangedListener listenerFrom = new CustomAutoCompleteTextChangedListener(context, from, true, this);
         from.addTextChangedListener(listenerFrom);
 
         to = view.findViewById(R.id.edit_to);
-        to.setCompoundDrawablesWithIntrinsicBounds(R.drawable.to_icon, 0, 0, 0);
         CustomAutoCompleteTextChangedListener listenerTo = new CustomAutoCompleteTextChangedListener(context, to, false, this);
         to.addTextChangedListener(listenerTo);
 
