@@ -90,4 +90,5 @@
     <string name="enter_valid_pnr">Please Enter valid PNR and Try Again!!</string>
     <string name="download_database_first_time">Download DataBase for First Time.\n\nIt is less than 1 MB!</string>
     <string name="press_back_again">Please click BACK again to exit!</string>
+    <string name="bye_message">Thank you for using KolKata Sub\nHope to see you soon.</string>
 </resources>
