@@ -6,20 +6,9 @@ package com.freakydevs.kolkatalocal.utils;
  */
 
 public class Constants {
-    public static String SHARED_PREFS_FILE = "com.freakydevs.kolkatalocal";
-    public static String TASKS = "history";
-    public static String SHARED_PREFS_FILE_HISTORY = "com.freakydevs.kolkatalocal.history";
-    public static String SHARED_PREFS_FILE_HISTORY_TRAINROUTE = "com.freakydevs.kolkatalocal.trainroute";
-    public static String TRAINHISTORY = "th";
-    public static String SHARED_PREFS_FILE_HISTORY_PNR = "com.freakydevs.kolkatalocal.historypnr";
-    public static String PNR_HISTORY = "com.freakydevs.kolkatalocal.historypnr";
-    public static String FROMCODE = "fc";
-    public static String FROMSTATION = "fs";
-    public static String TOCODE = "tc";
-    public static String TOSTATION = "ts";
-    public static String ISFIRSTTIME = "ift";
-    public static String CURRENTTIMEINMS = "ctm";
-    public static String REMOVE_AD_TIME = "rat";
-    public static String REMOVE_AD_ON = "rao";
-
+    public static final String TASKS = "history";
+    public static final String TRAINHISTORY = "th";
+    public static final String PNR_HISTORY = "com.freakydevs.kolkatalocal.historypnr";
+    public static final long TIME_TO_SHOW_LAST_SCREEN = 1500;
+    public static final int SIZE_OF_HISTORY_LIST = 15;
 }

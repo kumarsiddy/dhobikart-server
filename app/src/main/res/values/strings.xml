@@ -2,7 +2,7 @@
     <string name="app_name">KolKata Sub</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="drawer_opened">Drawerr is opened</string>
+    <string name="drawer_opened">Drawer is opened</string>
     <string name="drawer_closed">Drawer is closed</string>
     <string name="title_activity_time_table">Time Table</string>
     <string name="title_activity_chooser">Select Station Name</string>
@@ -19,7 +19,12 @@
     <string name="train_schedule_mid_ad_id">ca-app-pub-1846401976471462/1097410829</string>
     <string name="pnr_status_activity_ad_id">ca-app-pub-1846401976471462/2675884672</string>
     <string name="ad_reward_remove_ad">ca-app-pub-1846401976471462/3585724787</string>
-    <string name="test_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+
+    <!--Test Ad Id-->
+    <string name="test_banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="test_interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="test_video_ad_unit_id">ca-app-pub-3940256099942544/8691691433</string>
+    <string name="test_reward_video_ad_unit_id">ca-app-pub-3940256099942544/5224354917</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

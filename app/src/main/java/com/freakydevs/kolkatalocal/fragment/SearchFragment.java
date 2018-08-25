@@ -36,6 +36,7 @@ import com.freakydevs.kolkatalocal.models.Station;
 import com.freakydevs.kolkatalocal.resources.MyDataBaseHandler;
 import com.freakydevs.kolkatalocal.resources.ObjectSerializer;
 import com.freakydevs.kolkatalocal.resources.SearchTrainDetails;
+import com.freakydevs.kolkatalocal.utils.Constants;
 import com.freakydevs.kolkatalocal.utils.Logger;
 import com.freakydevs.kolkatalocal.utils.SharedPreferenceManager;
 
@@ -92,12 +93,18 @@ public class SearchFragment extends Fragment implements SearchInterface, View.On
         this.context = getContext();
         myDataBaseHandler = new MyDataBaseHandler(context);
         mainActivityInterface = (MainActivityInterface) context;
+        getHistoryListFromSharedPref();
+    }
 
+    private void getHistoryListFromSharedPref() {
         try {
             historyFromToList = (ArrayList<HistoryFromTo>) ObjectSerializer.deserialize(SharedPreferenceManager.getSearchHistorySharedPreference(context).getString(TASKS, ObjectSerializer.serialize(new ArrayList<HistoryFromTo>())));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        if (historyFromToList == null)
+            historyFromToList = new ArrayList<>();
 
     }
 
@@ -127,10 +134,9 @@ public class SearchFragment extends Fragment implements SearchInterface, View.On
 
         String data[] = SharedPreferenceManager.getAppFromTo(context);
         if (data != null && data[0].trim().length() > 2) {
-            from.setText(data[1] + " - " + data[0]);
-            to.setText(data[3] + " - " + data[2]);
+            from.setText(String.format("%s - %s", data[1], data[0]));
+            to.setText(String.format("%s - %s", data[3], data[2]));
         }
-
         historyRecycler = view.findViewById(R.id.history_recycler);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(context);
         historyRecycler.setLayoutManager(mLayoutManager);
@@ -163,7 +169,6 @@ public class SearchFragment extends Fragment implements SearchInterface, View.On
     private void hideKeyboard() {
         InputMethodManager in = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         in.hideSoftInputFromWindow(to.getApplicationWindowToken(), 0);
-
     }
 
     private void showKeyboard() {
@@ -173,11 +178,9 @@ public class SearchFragment extends Fragment implements SearchInterface, View.On
 
     @Override
     public void historyClicked(HistoryFromTo fromTo) {
-
-        from.setText(fromTo.getFromStation() + " - " + fromTo.getFromCode());
-        to.setText(fromTo.getToStation() + " - " + fromTo.getToCode());
+        from.setText(String.format("%s - %s", fromTo.getFromStation(), fromTo.getFromCode()));
+        to.setText(String.format("%s - %s", fromTo.getToStation(), fromTo.getToCode()));
         findTrains();
-
     }
 
     public String[] getItemsFromDb(String searchTerm) {
@@ -302,15 +305,11 @@ public class SearchFragment extends Fragment implements SearchInterface, View.On
 
     public void addFromTo(HistoryFromTo t) {
 
-        if (null == historyFromToList) {
-            historyFromToList = new ArrayList<HistoryFromTo>();
-        }
-
         ifDataExist(t);
         historyFromToList.add(0, t);
         historyAdapter.notifyDataSetChanged();
 
-        if (historyFromToList.size() > 15)
+        if (historyFromToList.size() > Constants.SIZE_OF_HISTORY_LIST)
             historyFromToList.remove(historyFromToList.size() - 1);
 
         try {
