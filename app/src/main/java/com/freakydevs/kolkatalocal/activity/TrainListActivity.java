@@ -16,6 +16,7 @@ import com.freakydevs.kolkatalocal.adapter.TrainListAdapter;
 import com.freakydevs.kolkatalocal.interfaces.TrainListInterface;
 import com.freakydevs.kolkatalocal.models.HistoryFromTo;
 import com.freakydevs.kolkatalocal.models.Train;
+import com.freakydevs.kolkatalocal.resources.CustomAdListener;
 import com.freakydevs.kolkatalocal.utils.SharedPreferenceManager;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -54,6 +55,12 @@ public class TrainListActivity extends AppCompatActivity implements TrainListInt
         initView();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initAdView();
+    }
+
     private void initView() {
         recyclerTrainList = findViewById(R.id.recycler_trainlist);
         toolbar = findViewById(R.id.toolbar);
@@ -79,19 +86,11 @@ public class TrainListActivity extends AppCompatActivity implements TrainListInt
         trainListAdapter.notifyDataSetChanged();
     }
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
+    private void initAdView() {
         if (SharedPreferenceManager.isShowAd(getApplicationContext())) {
             AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.setAdListener(new CustomAdListener(this, mAdView));
             mAdView.loadAd(adRequest);
-            mAdView.setVisibility(View.VISIBLE);
         } else {
             mAdView.setVisibility(View.GONE);
         }

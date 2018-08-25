@@ -14,6 +14,7 @@ import com.freakydevs.kolkatalocal.R;
 import com.freakydevs.kolkatalocal.adapter.RouteViewAdapter;
 import com.freakydevs.kolkatalocal.models.HistoryFromTo;
 import com.freakydevs.kolkatalocal.models.Station;
+import com.freakydevs.kolkatalocal.resources.CustomAdListener;
 import com.freakydevs.kolkatalocal.utils.SharedPreferenceManager;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -45,6 +46,12 @@ public class TrainRouteActivity extends AppCompatActivity {
         initView();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initAdView();
+    }
+
     private void initView() {
 
         toolbar = findViewById(R.id.toolbar);
@@ -66,7 +73,16 @@ public class TrainRouteActivity extends AppCompatActivity {
         routeViewAdapter = new RouteViewAdapter(context, fromTo, stations);
         recyclerRouteView.setAdapter(routeViewAdapter);
         routeViewAdapter.notifyDataSetChanged();
+    }
 
+    private void initAdView() {
+        if (SharedPreferenceManager.isShowAd(getApplicationContext())) {
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.setAdListener(new CustomAdListener(this, mAdView));
+            mAdView.loadAd(adRequest);
+        } else {
+            mAdView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -79,18 +95,5 @@ public class TrainRouteActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (SharedPreferenceManager.isShowAd(getApplicationContext())) {
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mAdView.loadAd(adRequest);
-            mAdView.setVisibility(View.VISIBLE);
-        } else {
-            mAdView.setVisibility(View.GONE);
-        }
-
     }
 }

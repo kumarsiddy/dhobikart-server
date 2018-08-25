@@ -161,6 +161,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:visibility="gone"
                 android:elevation="4dp"
                 app:adSize="SMART_BANNER"
                 app:adUnitId="@string/train_schedule_mid_ad_id" />

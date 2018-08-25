@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_gravity="center"
+            android:visibility="gone"
             app:adSize="SMART_BANNER"
             app:adUnitId="@string/banner_ad_unit_id_traintable" />
 

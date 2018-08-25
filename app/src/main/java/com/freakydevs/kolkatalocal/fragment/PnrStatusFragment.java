@@ -21,9 +21,11 @@ import com.freakydevs.kolkatalocal.customview.MySnackBar;
 import com.freakydevs.kolkatalocal.customview.PnrStatusAutoCompleteListener;
 import com.freakydevs.kolkatalocal.interfaces.PnrStatusInterface;
 import com.freakydevs.kolkatalocal.models.PnrDetails;
+import com.freakydevs.kolkatalocal.resources.CustomAdListener;
 import com.freakydevs.kolkatalocal.resources.ObjectSerializer;
 import com.freakydevs.kolkatalocal.utils.Internet;
 import com.freakydevs.kolkatalocal.utils.SharedPreferenceManager;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -77,12 +79,6 @@ public class PnrStatusFragment extends Fragment implements View.OnClickListener,
         pnrDetails.addTextChangedListener(new PnrStatusAutoCompleteListener(context, pnrDetails));
 
         mAdView = view.findViewById(R.id.adView);
-        if (SharedPreferenceManager.isShowAd(context.getApplicationContext())) {
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mAdView.loadAd(adRequest);
-        } else {
-            mAdView.setVisibility(View.GONE);
-        }
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(context);
         pnrHistoryRecyclerView.setLayoutManager(mLayoutManager);
@@ -92,6 +88,22 @@ public class PnrStatusFragment extends Fragment implements View.OnClickListener,
         pnrHistoryAdapter.notifyDataSetChanged();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initAdView();
+    }
+
+    private void initAdView() {
+        if (SharedPreferenceManager.isShowAd(context.getApplicationContext())) {
+            mAdView.setAdListener(new CustomAdListener(getContext(), mAdView));
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        } else {
+            mAdView.setVisibility(View.GONE);
+        }
     }
 
     @Override
