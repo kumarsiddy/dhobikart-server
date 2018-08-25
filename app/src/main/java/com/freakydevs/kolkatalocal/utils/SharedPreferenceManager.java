@@ -5,24 +5,26 @@ import android.content.SharedPreferences;
 
 import java.util.Calendar;
 
-import static com.freakydevs.kolkatalocal.utils.Constants.CURRENTTIMEINMS;
-import static com.freakydevs.kolkatalocal.utils.Constants.FROMCODE;
-import static com.freakydevs.kolkatalocal.utils.Constants.FROMSTATION;
-import static com.freakydevs.kolkatalocal.utils.Constants.ISFIRSTTIME;
-import static com.freakydevs.kolkatalocal.utils.Constants.REMOVE_AD_ON;
-import static com.freakydevs.kolkatalocal.utils.Constants.REMOVE_AD_TIME;
-import static com.freakydevs.kolkatalocal.utils.Constants.SHARED_PREFS_FILE;
-import static com.freakydevs.kolkatalocal.utils.Constants.SHARED_PREFS_FILE_HISTORY;
-import static com.freakydevs.kolkatalocal.utils.Constants.SHARED_PREFS_FILE_HISTORY_PNR;
-import static com.freakydevs.kolkatalocal.utils.Constants.SHARED_PREFS_FILE_HISTORY_TRAINROUTE;
-import static com.freakydevs.kolkatalocal.utils.Constants.TOCODE;
-import static com.freakydevs.kolkatalocal.utils.Constants.TOSTATION;
 
 /**
  * Created by PURUSHOTAM on 11/1/2017.
  */
 
 public class SharedPreferenceManager {
+
+    private static final String SHARED_PREFS_FILE = "com.freakydevs.kolkatalocal";
+    private static final String SHARED_PREFS_FILE_HISTORY = "com.freakydevs.kolkatalocal.history";
+    private static final String SHARED_PREFS_FILE_HISTORY_TRAINROUTE = "com.freakydevs.kolkatalocal.trainroute";
+    private static final String SHARED_PREFS_FILE_HISTORY_PNR = "com.freakydevs.kolkatalocal.historypnr";
+    private static final String FROMCODE = "fc";
+    private static final String FROMSTATION = "fs";
+    private static final String TOCODE = "tc";
+    private static final String TOSTATION = "ts";
+    private static final String ISFIRSTTIME = "ift";
+    private static final String CURRENTTIMEINMS = "ctm";
+    private static final String REMOVE_AD_TIME = "rat";
+    private static final String REMOVE_AD_ON = "rao";
+    private static final String FROM_AD_CLOSED = "FROM_AD_CLOSED";
 
     private static SharedPreferences historySharedPrefs;
     private static SharedPreferences.Editor historySharedPrefsEditor;
@@ -184,6 +186,14 @@ public class SharedPreferenceManager {
 
     public static void setRemoveAd(Context context, boolean isRemoveAd) {
         getAppEditor(context).putBoolean(REMOVE_AD_ON, isRemoveAd).apply();
+    }
+
+    public static void setFromAdClosed(Context context, boolean isFromAdClosed) {
+        getAppEditor(context).putBoolean(FROM_AD_CLOSED, isFromAdClosed).apply();
+    }
+
+    public static boolean isFromAdClosed(Context context) {
+        return getAppSharedPrefs(context).getBoolean(FROM_AD_CLOSED, false);
     }
 
 }
