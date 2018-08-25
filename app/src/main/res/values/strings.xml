@@ -47,8 +47,7 @@
     <string name="date">Date</string>
     <string name="title_activity_train_list">TrainList</string>
     <string name="capuccino">Cappuccino</string>
-    <string name="string_cofee"> We always work here to help you in your journey. We love to give good services to you.
-                                This is your turn now. Help developer buy a cup of coffee by viewing ad and Installing the App.</string>
+    <string name="string_cofee"> We always work here to help you in your journey. We love to give good services to you.\n\nThis is your turn now. Help developer buy a cup of coffee by viewing ad and Installing the App.</string>
     <string name="kolkata_sub">KolKata Sub</string>
     <string name="kolkata_sub_bengali">কলকাতা সাব</string>
     <string name="mail_us_at">Mail us at:</string>
@@ -63,10 +62,27 @@
     <string name="text_buy_a_cofee">Buy a Coffee</string>
     <string name="text_thanks_for_treat">Thank You for Your treat \\uD83D\\uDE03</string>
     <string name="text_get_in_touch">Get In Touch</string>
-    <string name="text_sending">Sending...</string>
+    <string name="text_sending">Sending…</string>
     <string name="text_fill_all_details">Please fill all details!</string>
     <string name="text_fill_name">Please Fill Your Name!</string>
     <string name="text_fill_email">Please Fill Your Email!</string>
     <string name="text_fill_message">Please Fill Your Message!</string>
     <string name="text_message_sent">Your Message has been sent!!</string>
+    <string name="share_text">Download this App for \'Offline\' Train Schedule. http://play.google.com/store/apps/details?id=com.freakydevs.kolkatalocal</string>
+    <string name="share_with">Share With</string>
+    <string name="app_url">http://play.google.com/store/apps/details?id=com.freakydevs.kolkatalocal</string>
+    <string name="database_download_message">Database Not Downloaded Yet!\n\nOr Database Corrupted!\n\nPlease Download it.</string>
+    <string name="download">Download</string>
+    <string name="cancel">Cancel</string>
+    <string name="no_direct_train">No Direct Train Available for this Route!</string>
+    <string name="ok">OK</string>
+    <string name="loading">Loading…</string>
+    <string name="database_update_available">Database Update Available!!</string>
+    <string name="app_update_available">App Update Available!!</string>
+    <string name="checking">Checking…</string>
+    <string name="latest_version_of_app">You have latest version of App!</string>
+    <string name="latest_version_of_database">You have latest version of Database!</string>
+    <string name="enter_valid_pnr">Please Enter valid PNR and Try Again!!</string>
+    <string name="download_database_first_time">Download DataBase for First Time.\n\nIt is less than 1 MB!</string>
+    <string name="press_back_again">Please click BACK again to exit!</string>
 </resources>
