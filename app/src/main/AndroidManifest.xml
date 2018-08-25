@@ -92,6 +92,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/ContactusActivityTheme"
             android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activity.LastActivity" android:theme="@style/NoActionBar"/>
     </application>
 
 </manifest>

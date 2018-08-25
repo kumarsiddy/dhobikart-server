@@ -1,9 +1,10 @@
 package com.freakydevs.kolkatalocal.connection;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
 import android.support.annotation.NonNull;
 
+import com.freakydevs.kolkatalocal.BuildConfig;
+import com.freakydevs.kolkatalocal.enums.UpdateType;
 import com.freakydevs.kolkatalocal.interfaces.MainActivityInterface;
 import com.freakydevs.kolkatalocal.resources.MyDataBaseHandler;
 import com.freakydevs.kolkatalocal.utils.Logger;
@@ -28,20 +29,19 @@ import java.io.InputStreamReader;
 
 public class Updater {
 
-    public FirebaseStorage storage = FirebaseStorage.getInstance();
-    boolean isProgress;
-    int whichUpdate;
-    JSONObject jsonObject;
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private boolean isProgress;
+    private UpdateType updateType;
+    private JSONObject jsonObject;
     private Context context;
     private MainActivityInterface mainActivityInterface;
 
-    public Updater(Context context, boolean isProgress, int whichUpdate) {
+    public Updater(Context context, boolean isProgress, UpdateType updateType) {
         this.context = context;
         this.isProgress = isProgress;
-        this.whichUpdate = whichUpdate;
+        this.updateType = updateType;
         mainActivityInterface = (MainActivityInterface) context;
         if (isProgress) {
-
             mainActivityInterface.showUpdateLoader();
         }
         getJSON();
@@ -88,43 +88,42 @@ public class Updater {
 
     private void checkForUpdate(JSONObject jsonObject) {
 
-        boolean isDBupdateav, isAppUpdateav;
+        boolean isDBUpdateav, isAppUpdateav;
         if (isProgress) {
             mainActivityInterface.hideUpdateLoader();
         }
         try {
-            int appVersion = jsonObject.getInt("a");
-            int newdbVersion = jsonObject.getInt("d");
+            int newAppVersion = jsonObject.getInt("a");
+            int newDBVersion = jsonObject.getInt("d");
             int isRemovedAd = jsonObject.getInt("r");
             if (isRemovedAd == 0) {
                 SharedPreferenceManager.setRemoveAd(context.getApplicationContext(), false);
             }
 
-            int olddbVersion = new MyDataBaseHandler(context).getDbVersion();
-            PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-            int oldappVersion = pInfo.versionCode;
+            int oldDBVersion = new MyDataBaseHandler(context).getDbVersion();
+            int oldAppVersion = BuildConfig.VERSION_CODE;
 
-            isDBupdateav = olddbVersion < newdbVersion;
-            isAppUpdateav = oldappVersion < appVersion;
+            isDBUpdateav = oldDBVersion < newDBVersion;
+            isAppUpdateav = oldAppVersion < newAppVersion;
 
-            if (whichUpdate == 1 && isAppUpdateav) {
+            if (updateType == UpdateType.APP && isAppUpdateav) {
                 mainActivityInterface.showAppUpdate();
-            } else if (whichUpdate == 1) {
+            } else if (updateType == UpdateType.APP) {
                 mainActivityInterface.noAppUpdate();
             }
 
-            if (whichUpdate == 2 && isDBupdateav) {
+            if (updateType == UpdateType.DATABASE && isDBUpdateav) {
                 mainActivityInterface.showDatabaseUpdate();
-            } else if (whichUpdate == 2) {
+            } else if (updateType == UpdateType.DATABASE) {
                 mainActivityInterface.noDbUpdate();
             }
 
-            if (whichUpdate == 0 && isAppUpdateav && isDBupdateav) {
+            if (updateType == UpdateType.BOTH && isAppUpdateav && isDBUpdateav) {
                 mainActivityInterface.showAppUpdate();
                 mainActivityInterface.showDatabaseUpdate();
-            } else if (whichUpdate == 0 && isAppUpdateav) {
+            } else if (updateType == UpdateType.BOTH && isAppUpdateav) {
                 mainActivityInterface.showAppUpdate();
-            } else if (whichUpdate == 0 && isDBupdateav) {
+            } else if (updateType == UpdateType.BOTH && isDBUpdateav) {
                 mainActivityInterface.showDatabaseUpdate();
             }
 

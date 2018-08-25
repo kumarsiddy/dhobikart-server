@@ -26,6 +26,7 @@ import com.freakydevs.kolkatalocal.adapter.MyPagerAdapter;
 import com.freakydevs.kolkatalocal.connection.DownloadManager;
 import com.freakydevs.kolkatalocal.connection.Updater;
 import com.freakydevs.kolkatalocal.customview.MySnackBar;
+import com.freakydevs.kolkatalocal.enums.UpdateType;
 import com.freakydevs.kolkatalocal.fragment.PnrStatusFragment;
 import com.freakydevs.kolkatalocal.fragment.SearchFragment;
 import com.freakydevs.kolkatalocal.fragment.TrainRouteFragment;
@@ -48,41 +49,13 @@ import java.io.File;
 public class MainActivity extends AppCompatActivity implements MainActivityInterface {
 
     private ViewPager viewPager;
-    private MyPagerAdapter myPagerAdapter;
-    private Toolbar toolbar;
     private AdView mAdView;
-    private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private Context context;
     private KProgressHUD hud;
     private ConstraintLayout parentLayout;
-    private InterstitialAd mInterstitialad;
+    private InterstitialAd mInterstitialAd;
     private boolean doubleBackToExitPressedOnce = false;
-
-    public static void deleteCache(Context context) {
-        try {
-            File dir = context.getCacheDir();
-            deleteDir(dir);
-        } catch (Exception e) {
-        }
-    }
-
-    public static boolean deleteDir(File dir) {
-        if (dir != null && dir.isDirectory()) {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                boolean success = deleteDir(new File(dir, children[i]));
-                if (!success) {
-                    return false;
-                }
-            }
-            return dir.delete();
-        } else if (dir != null && dir.isFile()) {
-            return dir.delete();
-        } else {
-            return false;
-        }
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,20 +64,26 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         context = this;
         initView();
         initViewPager();
+        initAds();
+        runAppAndDatabaseCheck();
+    }
 
+    private void runAppAndDatabaseCheck() {
         if (SharedPreferenceManager.isFirstTime(getApplicationContext())) {
             checkDatabase();
         } else if (SharedPreferenceManager.isupdateTime(getApplicationContext())) {
-            new Updater(context, false, 0);
+            new Updater(context, false, UpdateType.BOTH);
         }
     }
 
     private void initView() {
         viewPager = findViewById(R.id.pager);
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        navigationView = findViewById(R.id.navigation_view);
+        NavigationView navigationView = findViewById(R.id.navigation_view);
+        setNavigationListener(navigationView);
         drawerLayout = findViewById(R.id.drawer);
+        setDrawerListener(toolbar);
         mAdView = findViewById(R.id.adView);
         parentLayout = findViewById(R.id.parent_layout);
 
@@ -117,11 +96,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
                 .setDimAmount(0.6f);
 
         Menu menu = navigationView.getMenu();
-
         MenuItem target = menu.findItem(R.id.remove_ad);
-
         target.setVisible(SharedPreferenceManager.isRemoveAd(getApplicationContext()));
+    }
 
+    private void setNavigationListener(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -138,17 +117,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
                         viewPager.setCurrentItem(2);
                         return true;
                     case R.id.nav_share:
-                        String share = "Download this App for 'Offline' Train Schedule. http://play.google.com/store/apps/details?id=com.freakydevs.kolkatalocal";
                         Intent sharing = new Intent(Intent.ACTION_SEND);
                         sharing.setType("text/plain");
-                        sharing.putExtra(Intent.EXTRA_SUBJECT, "Kolkata Sub");
-                        sharing.putExtra(Intent.EXTRA_TEXT, share);
-                        startActivity(Intent.createChooser(sharing, "Share with"));
+                        sharing.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
+                        sharing.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text));
+                        startActivity(Intent.createChooser(sharing, getString(R.string.share_with)));
                         return true;
                     case R.id.nav_rateus:
-                        String url = "http://play.google.com/store/apps/details?id=com.freakydevs.kolkatalocal";
                         Intent i = new Intent(Intent.ACTION_VIEW);
-                        i.setData(Uri.parse(url));
+                        i.setData(Uri.parse(getString(R.string.app_url)));
                         startActivity(i);
                         return true;
                     case R.id.nav_contactus:
@@ -159,12 +136,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
                         return true;
                     case R.id.nav_appupdate:
                         if (Internet.isConnected(context)) {
-                            new Updater(context, true, 1);
+                            new Updater(context, true, UpdateType.APP);
                         }
                         return true;
                     case R.id.nav_databaseupdate:
                         if (Internet.isConnected(context)) {
-                            new Updater(context, true, 2);
+                            new Updater(context, true, UpdateType.DATABASE);
                         }
                         return true;
                     case R.id.buy_me_cofee:
@@ -178,7 +155,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
                 }
             }
         });
+    }
 
+    private void setDrawerListener(Toolbar toolbar) {
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer) {
 
             @Override
@@ -193,11 +172,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         };
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
-
     }
 
     private void initViewPager() {
-        myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+        MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         myPagerAdapter.addFragment(new SearchFragment(), "SearchFragment");
         myPagerAdapter.addFragment(new TrainRouteFragment(), "Train");
         myPagerAdapter.addFragment(new PnrStatusFragment(), "PNR Status");
@@ -205,22 +183,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
+    private void initAds() {
         if (SharedPreferenceManager.isShowAd(getApplicationContext())) {
             AdRequest adRequest = new AdRequest.Builder().build();
             mAdView.loadAd(adRequest);
             mAdView.setVisibility(View.VISIBLE);
-            mInterstitialad = new InterstitialAd(this);
-            mInterstitialad.setAdUnitId(getApplicationContext().getString(R.string.interstitial_ad_unit_id));
-            mInterstitialad.loadAd(adRequest);
+            mInterstitialAd = new InterstitialAd(this);
+            mInterstitialAd.setAdUnitId(getApplicationContext().getString(R.string.interstitial_ad_unit_id));
+            mInterstitialAd.loadAd(adRequest);
         } else {
             mAdView.setVisibility(View.GONE);
         }
@@ -230,18 +200,16 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
     public void notifyDatabaseDownload() {
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
         alertDialogBuilder
-                .setMessage("Database Not Downloaded Yet!\n" +
-                        "Or Database Corrupted!\n" +
-                        "Please Download it.")
+                .setMessage(getString(R.string.database_download_message))
                 .setCancelable(false);
-        alertDialogBuilder.setPositiveButton("Download", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setPositiveButton(getString(R.string.download), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (Internet.isConnected(context)) {
                     new DownloadManager(context);
                 }
             }
-        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -256,10 +224,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
         alertDialogBuilder
-                .setMessage("No Direct Train Available for this Route!")
+                .setMessage(getString(R.string.no_direct_train))
                 .setCancelable(false);
 
-        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -272,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
 
     @Override
     public void showLoader() {
-        hud.setLabel("Loading...");
+        hud.setLabel(getString(R.string.loading));
         hud.show();
     }
 
@@ -288,16 +256,16 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
 
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
         alertDialogBuilder
-                .setMessage("Database Update Available!!")
+                .setMessage(getString(R.string.database_update_available))
                 .setCancelable(false);
-        alertDialogBuilder.setPositiveButton("Download", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setPositiveButton(getString(R.string.download), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (Internet.isConnected(context)) {
                     new DownloadManager(context);
                 }
             }
-        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -313,19 +281,18 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
 
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
         alertDialogBuilder
-                .setMessage("App Update Available!!")
+                .setMessage(getString(R.string.app_update_available))
                 .setCancelable(false);
-        alertDialogBuilder.setPositiveButton("Download", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setPositiveButton(getString(R.string.download), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (Internet.isConnected(context)) {
-                    String url = "http://play.google.com/store/apps/details?id=com.freakydevs.kolkatalocal";
                     Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
+                    i.setData(Uri.parse(getString(R.string.app_url)));
                     startActivity(i);
                 }
             }
-        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -338,7 +305,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
 
     @Override
     public void showUpdateLoader() {
-        hud.setLabel("Checking...");
+        hud.setLabel(getString(R.string.checking));
         hud.show();
     }
 
@@ -352,10 +319,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
         alertDialogBuilder
-                .setMessage("You have latest version of App!")
+                .setMessage(getString(R.string.latest_version_of_app))
                 .setCancelable(false);
 
-        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -371,10 +338,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
         alertDialogBuilder
-                .setMessage("You have latest version of Database!")
+                .setMessage(getString(R.string.latest_version_of_database))
                 .setCancelable(false);
 
-        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -390,10 +357,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
         alertDialogBuilder
-                .setMessage("Please Enter valid PNR and Try Again!!")
+                .setMessage(getString(R.string.enter_valid_pnr))
                 .setCancelable(false);
 
-        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -414,17 +381,16 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
     private void notifyDatabaseFirstTime() {
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
         alertDialogBuilder
-                .setMessage("Download DataBase for First Time.\n" +
-                        "It is less than 1 MB!")
+                .setMessage(getString(R.string.download_database_first_time))
                 .setCancelable(false);
-        alertDialogBuilder.setPositiveButton("Download", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setPositiveButton(getString(R.string.download), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (Internet.isConnected(context)) {
                     new DownloadManager(context);
                 }
             }
-        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -443,13 +409,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         }
     }
 
-    public void openQuitDialog() {
+    private void openQuitDialog() {
 
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
 
-            if (mInterstitialad.isLoaded() && SharedPreferenceManager.isShowAd(getApplicationContext())) {
-                mInterstitialad.show();
+            if (mInterstitialAd.isLoaded() && SharedPreferenceManager.isShowAd(getApplicationContext())) {
+                mInterstitialAd.show();
             } else {
                 deleteCache(context);
             }
@@ -458,7 +424,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
 
         this.doubleBackToExitPressedOnce = true;
 
-        MySnackBar.show(getApplicationContext(), parentLayout, "Please click BACK again to exit!");
+        MySnackBar.show(getApplicationContext(), parentLayout, getString(R.string.press_back_again));
 
         new Handler().postDelayed(new Runnable() {
 
@@ -467,5 +433,34 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
                 doubleBackToExitPressedOnce = false;
             }
         }, 2000);
+    }
+
+    private static void deleteCache(Context context) {
+        try {
+            File dir = context.getCacheDir();
+            deleteDir(dir);
+        } catch (Exception e) {
+        }
+    }
+
+    private static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (String aChildren : children) {
+                boolean success = deleteDir(new File(dir, aChildren));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        } else
+            return dir != null && dir.isFile() && dir.delete();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (hud != null && hud.isShowing())
+            hud.dismiss();
     }
 }
