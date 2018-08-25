@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
             mAdView.loadAd(adRequest);
             mAdView.setVisibility(View.VISIBLE);
             mInterstitialAd = new InterstitialAd(this);
-            mInterstitialAd.setAdUnitId(getString(R.string.test_interstitial_ad_unit_id));
+            mInterstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
             mInterstitialAd.setAdListener(new InterstitialAdListener(this));
             mInterstitialAd.loadAd(adRequest);
         } else {

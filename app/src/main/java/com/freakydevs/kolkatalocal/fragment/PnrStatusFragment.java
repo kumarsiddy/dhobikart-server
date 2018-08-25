@@ -52,12 +52,17 @@ public class PnrStatusFragment extends Fragment implements View.OnClickListener,
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getContext();
+        initPNRDetailsFromSharedPref();
+    }
 
+    private void initPNRDetailsFromSharedPref() {
         try {
             pnrDetailsList = (ArrayList<PnrDetails>) ObjectSerializer.deserialize(SharedPreferenceManager.getPnrSharedPrefs(context).getString(PNR_HISTORY, ObjectSerializer.serialize(new ArrayList<PnrDetails>())));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        if (pnrDetailsList == null)
+            pnrDetailsList = new ArrayList<>();
     }
 
     @Nullable
@@ -119,10 +124,6 @@ public class PnrStatusFragment extends Fragment implements View.OnClickListener,
     }
 
     public void addDetailstoHistory(PnrDetails p) {
-
-        if (null == pnrDetailsList) {
-            pnrDetailsList = new ArrayList<PnrDetails>();
-        }
         ifDataExist(p);
         pnrDetailsList.add(0, p);
         pnrHistoryAdapter.notifyDataSetChanged();

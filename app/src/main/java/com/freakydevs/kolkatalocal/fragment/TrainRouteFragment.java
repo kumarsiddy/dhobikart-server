@@ -62,11 +62,17 @@ public class TrainRouteFragment extends Fragment implements TrainRouteFragInterf
         super.onCreate(savedInstanceState);
         context = getContext();
         myDataBaseHandler = new MyDataBaseHandler(context);
+        initTrainListFromSharedPref();
+    }
 
+    private void initTrainListFromSharedPref() {
         try {
             trainNoNames = (ArrayList<TrainNoName>) ObjectSerializer.deserialize(SharedPreferenceManager.getTrainROuteSharedPrefs(context).getString(TRAINHISTORY, ObjectSerializer.serialize(new ArrayList<TrainNoName>())));
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        if (trainNoNames == null) {
+            trainNoNames = new ArrayList<>();
         }
     }
 
@@ -141,10 +147,6 @@ public class TrainRouteFragment extends Fragment implements TrainRouteFragInterf
     }
 
     public void addDetailstoHistory(TrainNoName t) {
-
-        if (null == trainNoNames) {
-            trainNoNames = new ArrayList<TrainNoName>();
-        }
         ifDataExist(t);
         trainNoNames.add(0, t);
         historyAdapter.notifyDataSetChanged();

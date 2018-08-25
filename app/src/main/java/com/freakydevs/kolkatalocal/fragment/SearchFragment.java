@@ -93,10 +93,10 @@ public class SearchFragment extends Fragment implements SearchInterface, View.On
         this.context = getContext();
         myDataBaseHandler = new MyDataBaseHandler(context);
         mainActivityInterface = (MainActivityInterface) context;
-        getHistoryListFromSharedPref();
+        initHistoryListFromSharedPref();
     }
 
-    private void getHistoryListFromSharedPref() {
+    private void initHistoryListFromSharedPref() {
         try {
             historyFromToList = (ArrayList<HistoryFromTo>) ObjectSerializer.deserialize(SharedPreferenceManager.getSearchHistorySharedPreference(context).getString(TASKS, ObjectSerializer.serialize(new ArrayList<HistoryFromTo>())));
         } catch (IOException e) {
