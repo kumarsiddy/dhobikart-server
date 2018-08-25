@@ -1,6 +1,5 @@
 package com.freakydevs.kolkatalocal.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,10 +31,10 @@ import com.freakydevs.kolkatalocal.fragment.PnrStatusFragment;
 import com.freakydevs.kolkatalocal.fragment.SearchFragment;
 import com.freakydevs.kolkatalocal.fragment.TrainRouteFragment;
 import com.freakydevs.kolkatalocal.interfaces.MainActivityInterface;
+import com.freakydevs.kolkatalocal.resources.CustomAdListener;
 import com.freakydevs.kolkatalocal.resources.MyDataBaseHandler;
 import com.freakydevs.kolkatalocal.utils.Internet;
 import com.freakydevs.kolkatalocal.utils.SharedPreferenceManager;
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
@@ -66,8 +65,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         context = this;
         initView();
         initViewPager();
-        initAds();
         runAppAndDatabaseCheck();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initAdView();
     }
 
     private void runAppAndDatabaseCheck() {
@@ -185,14 +189,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
 
     }
 
-    private void initAds() {
+    private void initAdView() {
         if (SharedPreferenceManager.isShowAd(getApplicationContext())) {
             AdRequest adRequest = new AdRequest.Builder().addTestDevice("6BB916C8AE03F4AF01DC11FDAB3DA729").build();
+            mAdView.setAdListener(new CustomAdListener(this, mAdView));
             mAdView.loadAd(adRequest);
             mAdView.setVisibility(View.VISIBLE);
             mInterstitialAd = new InterstitialAd(this);
             mInterstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
-            mInterstitialAd.setAdListener(new InterstitialAdListener(this));
+            mInterstitialAd.setAdListener(new CustomAdListener(this, true));
             mInterstitialAd.loadAd(adRequest);
         } else {
             mAdView.setVisibility(View.GONE);
@@ -417,7 +422,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
 
-            if (mInterstitialAd.isLoaded() && SharedPreferenceManager.isShowAd(getApplicationContext())) {
+            if (SharedPreferenceManager.isShowAd(getApplicationContext()) && mInterstitialAd.isLoaded() ) {
                 mInterstitialAd.show();
             } else {
                 deleteCache(context);
@@ -465,23 +470,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         super.onDestroy();
         if (hud != null && hud.isShowing())
             hud.dismiss();
-    }
-
-    private static class InterstitialAdListener extends AdListener {
-
-        private Context context;
-
-        InterstitialAdListener(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        public void onAdClosed() {
-            super.onAdClosed();
-            SharedPreferenceManager.setFromAdClosed(context, true);
-            context.startActivity(new Intent(context, LastActivity.class));
-            ((Activity) context).finish();
-        }
     }
 
 }

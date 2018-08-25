@@ -23,6 +23,7 @@ import com.freakydevs.kolkatalocal.customview.MySnackBar;
 import com.freakydevs.kolkatalocal.customview.TrainAutoCompleteListener;
 import com.freakydevs.kolkatalocal.interfaces.TrainRouteFragInterface;
 import com.freakydevs.kolkatalocal.models.TrainNoName;
+import com.freakydevs.kolkatalocal.resources.CustomAdListener;
 import com.freakydevs.kolkatalocal.resources.MyDataBaseHandler;
 import com.freakydevs.kolkatalocal.resources.ObjectSerializer;
 import com.freakydevs.kolkatalocal.resources.SearchTrainRouteFrag;
@@ -90,12 +91,6 @@ public class TrainRouteFragment extends Fragment implements TrainRouteFragInterf
         trainDetails.addTextChangedListener(new TrainAutoCompleteListener(context, trainDetails, this));
 
         mAdView = view.findViewById(R.id.adView);
-        if (SharedPreferenceManager.isShowAd(context.getApplicationContext())) {
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mAdView.loadAd(adRequest);
-        } else {
-            mAdView.setVisibility(View.GONE);
-        }
 
         historyTrainRouteRecyler = view.findViewById(R.id.history_trainroute_recycler);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(context);
@@ -113,6 +108,22 @@ public class TrainRouteFragment extends Fragment implements TrainRouteFragInterf
             }
         });
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initAdView();
+    }
+
+    private void initAdView() {
+        if (SharedPreferenceManager.isShowAd(context.getApplicationContext())) {
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.setAdListener(new CustomAdListener(getContext(), mAdView));
+            mAdView.loadAd(adRequest);
+        } else {
+            mAdView.setVisibility(View.GONE);
+        }
     }
 
     @Override

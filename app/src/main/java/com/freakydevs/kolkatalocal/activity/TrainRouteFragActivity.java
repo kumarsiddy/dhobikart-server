@@ -16,6 +16,7 @@ import com.freakydevs.kolkatalocal.adapter.RouteViewFragAdapter;
 import com.freakydevs.kolkatalocal.customview.CircularTextView;
 import com.freakydevs.kolkatalocal.models.Station;
 import com.freakydevs.kolkatalocal.models.Train;
+import com.freakydevs.kolkatalocal.resources.CustomAdListener;
 import com.freakydevs.kolkatalocal.utils.SharedPreferenceManager;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -48,6 +49,12 @@ public class TrainRouteFragActivity extends AppCompatActivity {
         initView();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initAdView();
+    }
+
     private void initView() {
         toolbar = findViewById(R.id.toolbar);
         recyclerRouteView = findViewById(R.id.recycelrrouteview);
@@ -78,7 +85,17 @@ public class TrainRouteFragActivity extends AppCompatActivity {
         routeViewAdapter = new RouteViewFragAdapter(context, stations);
         recyclerRouteView.setAdapter(routeViewAdapter);
         routeViewAdapter.notifyDataSetChanged();
+    }
 
+    private void initAdView() {
+        if (SharedPreferenceManager.isShowAd(getApplicationContext())) {
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.setAdListener(new CustomAdListener(this, mAdView));
+            mAdView.loadAd(adRequest);
+            mAdView.setVisibility(View.VISIBLE);
+        } else {
+            mAdView.setVisibility(View.GONE);
+        }
     }
 
     private void setDaysColor() {
@@ -151,17 +168,5 @@ public class TrainRouteFragActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (SharedPreferenceManager.isShowAd(getApplicationContext())) {
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mAdView.loadAd(adRequest);
-            mAdView.setVisibility(View.VISIBLE);
-        } else {
-            mAdView.setVisibility(View.GONE);
-        }
     }
 }

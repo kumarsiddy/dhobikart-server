@@ -36,6 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:elevation="4dp"
+        android:visibility="gone"
         app:adSize="SMART_BANNER"
         app:adUnitId="@string/banner_ad_id_train_route_frag" />
 

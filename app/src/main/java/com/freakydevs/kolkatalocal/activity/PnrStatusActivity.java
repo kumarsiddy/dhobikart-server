@@ -13,9 +13,11 @@ import android.widget.TextView;
 import com.freakydevs.kolkatalocal.R;
 import com.freakydevs.kolkatalocal.adapter.PassengerListAdapter;
 import com.freakydevs.kolkatalocal.models.Passenger;
+import com.freakydevs.kolkatalocal.resources.CustomAdListener;
 import com.freakydevs.kolkatalocal.utils.SharedPreferenceManager;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +33,7 @@ public class PnrStatusActivity extends AppCompatActivity {
     private Context context;
     private Toolbar toolbar;
     private AdView mAdView;
+    private InterstitialAd mInterstitialAd;
     private RecyclerView pnrRecyclerView;
     private JSONObject jsonObject;
     private String stringPnrNo;
@@ -76,7 +79,12 @@ public class PnrStatusActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("PNR " + stringPnrNo);
 
         mAdView = findViewById(R.id.adView);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initAdView();
     }
 
     private void initViewData() {
@@ -116,8 +124,19 @@ public class PnrStatusActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
-
+    private void initAdView() {
+        if (SharedPreferenceManager.isShowAd(getApplicationContext())) {
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.setAdListener(new CustomAdListener(this, mAdView));
+            mAdView.loadAd(adRequest);
+            mInterstitialAd = new InterstitialAd(this);
+            mInterstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
+            mInterstitialAd.loadAd(adRequest);
+        } else {
+            mAdView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -125,7 +144,7 @@ public class PnrStatusActivity extends AppCompatActivity {
 
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            this.finish();
+            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -140,23 +159,18 @@ public class PnrStatusActivity extends AppCompatActivity {
             DateFormat dFormatFinal = new SimpleDateFormat("dd-MMM-yyyy");
             Date date = dFormat.parse(strings[0]);
             returnedDate = dFormatFinal.format(date);
-            return returnedDate + "\n" + timeStrings[0];
+            return timeStrings[0] + "\n" + returnedDate;
         } catch (Exception e) {
             e.printStackTrace();
             return returnedDate;
         }
-
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        if (SharedPreferenceManager.isShowAd(getApplicationContext())) {
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mAdView.loadAd(adRequest);
-            mAdView.setVisibility(View.VISIBLE);
-        } else {
-            mAdView.setVisibility(View.GONE);
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (mInterstitialAd != null && mInterstitialAd.isLoaded() && SharedPreferenceManager.isShowAd(getApplicationContext())) {
+            mInterstitialAd.show();
         }
     }
 }
