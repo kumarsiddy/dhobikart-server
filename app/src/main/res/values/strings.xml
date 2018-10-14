@@ -35,10 +35,8 @@
     <string name="test_video_ad_unit_id">ca-app-pub-3940256099942544/8691691433</string>
     <string name="test_reward_video_ad_unit_id">ca-app-pub-3940256099942544/5224354917</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_about">About</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="about_us"> We are small group of enthusiast developers working hard to give you good services. And We are happy working behind the scene.</string>
     <string name="divider"><![CDATA[-->]]></string>
     <string name="title_activity_download">Download Zone</string>
@@ -82,9 +80,9 @@
     <string name="text_fill_email">Please Fill Your Email!</string>
     <string name="text_fill_message">Please Fill Your Message!</string>
     <string name="text_message_sent">Your Message has been sent!!</string>
-    <string name="share_text">Download this App for \'Offline\' Train Schedule. http://play.google.com/store/apps/details?id=com.freakydevs.kolkatalocal</string>
+    <string name="share_text">Download this App for \'Offline\' Train Schedule. http://play.google.com/store/apps/details?id=in.freakydevs.kolkatasub</string>
     <string name="share_with">Share With</string>
-    <string name="app_url">http://play.google.com/store/apps/details?id=com.freakydevs.kolkatalocal</string>
+    <string name="app_url">http://play.google.com/store/apps/details?id=in.freakydevs.kolkatasub</string>
     <string name="database_download_message">Database Not Downloaded Yet!\n\nOr Database Corrupted!\n\nPlease Download it.</string>
     <string name="download">Download</string>
     <string name="cancel">Cancel</string>

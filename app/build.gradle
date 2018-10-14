@@ -10,8 +10,8 @@ android {
         applicationId "in.freakydevs.kolkatasub"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 26
-        versionName "1.3.5"
+        versionCode 31
+        versionName "1.4.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
