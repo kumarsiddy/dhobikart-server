@@ -20,7 +20,7 @@
     <!--<string name="interstitial_ad_unit_id">@string/test_interstitial_ad_unit_id</string>-->
     <string name="video_reward_id">ca-app-pub-1846401976471462/8678186243</string>
     <!--<string name="video_reward_id">@string/test_reward_video_ad_unit_id</string>-->
-    <string name="pnr_mid_ad_id">ca-app-pub-1846401976471462/8071326364</string>ca-app-pub-1846401976471462/8071326364
+    <string name="pnr_mid_ad_id">ca-app-pub-1846401976471462/8071326364</string>
     <!--<string name="pnr_mid_ad_id">@string/test_banner_ad_unit_id</string>-->
     <string name="train_schedule_mid_ad_id">ca-app-pub-1846401976471462/1097410829</string>
     <!--<string name="train_schedule_mid_ad_id">@string/test_banner_ad_unit_id</string>-->
@@ -28,7 +28,7 @@
     <!--<string name="pnr_status_activity_ad_id">@string/test_banner_ad_unit_id</string>-->
     <string name="ad_reward_remove_ad">ca-app-pub-1846401976471462/3585724787</string>
     <!--<string name="ad_reward_remove_ad">@string/test_reward_video_ad_unit_id</string>-->
-pnr
+
     <!--Test Ad Id-->
     <string name="test_banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="test_interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
@@ -100,4 +100,9 @@ pnr
     <string name="download_database_first_time">Download DataBase for First Time.\n\nIt is less than 1 MB!</string>
     <string name="press_back_again">Please click BACK again to exit!</string>
     <string name="bye_message">Thank you for using KolKata Sub\nHope to see you soon.</string>
+    <string name="policy_1">This application uses a unique user identifier for advertising purposes, it is shared with third-party companies.</string>
+    <string name="policy_2">This application sends error reports, installation and send it to a server of the Fabric.io company to analyze and process it.</string>
+    <string name="policy_3">This application requires internet access and must collect the following information: Installed applications and history of installed applications, ip address, unique installation id, token to send notifications, version of the application, time zone and information about the language of the device.</string>
+    <string name="policy_4">All details about the use of data are available in our Privacy Policies, as well as all Terms of Service links below.</string>
+    <string name="accept_terms_condition">Please accept Terms and Condition to continue.</string>
 </resources>
