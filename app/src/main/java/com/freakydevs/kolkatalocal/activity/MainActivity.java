@@ -26,6 +26,7 @@ import com.freakydevs.kolkatalocal.adapter.MyPagerAdapter;
 import com.freakydevs.kolkatalocal.connection.DownloadManager;
 import com.freakydevs.kolkatalocal.connection.Updater;
 import com.freakydevs.kolkatalocal.customview.MySnackBar;
+import com.freakydevs.kolkatalocal.customview.MyToast;
 import com.freakydevs.kolkatalocal.enums.UpdateType;
 import com.freakydevs.kolkatalocal.fragment.PnrStatusFragment;
 import com.freakydevs.kolkatalocal.fragment.SearchFragment;
@@ -33,6 +34,7 @@ import com.freakydevs.kolkatalocal.fragment.TrainRouteFragment;
 import com.freakydevs.kolkatalocal.interfaces.MainActivityInterface;
 import com.freakydevs.kolkatalocal.resources.CustomAdListener;
 import com.freakydevs.kolkatalocal.resources.MyDataBaseHandler;
+import com.freakydevs.kolkatalocal.utils.Constants;
 import com.freakydevs.kolkatalocal.utils.Internet;
 import com.freakydevs.kolkatalocal.utils.SharedPreferenceManager;
 import com.google.android.gms.ads.AdRequest;
@@ -40,7 +42,10 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
+import net.khirr.android.privacypolicy.PrivacyPolicyDialog;
+
 import java.io.File;
+import java.util.Arrays;
 
 
 /**
@@ -65,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         context = this;
         initView();
         initViewPager();
-        runAppAndDatabaseCheck();
+        showPrivacyPolicyDialog();
     }
 
     @Override
@@ -422,7 +427,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
 
-            if (SharedPreferenceManager.isShowAd(getApplicationContext()) && mInterstitialAd.isLoaded() ) {
+            if (SharedPreferenceManager.isShowAd(getApplicationContext()) && mInterstitialAd.isLoaded()) {
                 mInterstitialAd.show();
             } else {
                 deleteCache(context);
@@ -464,6 +469,38 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         } else
             return dir != null && dir.isFile() && dir.delete();
     }
+
+    private void showPrivacyPolicyDialog() {
+        final PrivacyPolicyDialog privacyPolicyDialog = new PrivacyPolicyDialog(this,
+                Constants.TERMS_CONDITION_URL,
+                Constants.PRIVACY_POLICY_URL);
+
+        addPoliciesToDialog(privacyPolicyDialog);
+        privacyPolicyDialog.setOnClickListener(new PrivacyPolicyDialog.OnClickListener() {
+            @Override
+            public void onAccept(boolean isFirstTime) {
+                runAppAndDatabaseCheck();
+            }
+
+            @Override
+            public void onCancel() {
+                MyToast.showToast(MainActivity.this, getString(R.string.accept_terms_condition));
+                privacyPolicyDialog.show();
+            }
+        });
+        privacyPolicyDialog.show();
+    }
+
+    private void addPoliciesToDialog(PrivacyPolicyDialog privacyPolicyDialog) {
+        for (int policyId : Arrays.asList(
+                R.string.policy_1,
+                R.string.policy_2,
+                R.string.policy_3,
+                R.string.policy_4)) {
+            privacyPolicyDialog.addPoliceLine(getString(policyId));
+        }
+    }
+
 
     @Override
     protected void onDestroy() {

@@ -24,46 +24,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        showPrivacyPolicyDialog();
-    }
-
-    private void showPrivacyPolicyDialog() {
-        final PrivacyPolicyDialog privacyPolicyDialog = new PrivacyPolicyDialog(this,
-                Constants.TERMS_CONDITION_URL,
-                Constants.PRIVACY_POLICY_URL);
-
-        addPoliciesToDialog(privacyPolicyDialog);
-
-        final Intent intent = new Intent(this, MainActivity.class);
-
-        privacyPolicyDialog.setOnClickListener(new PrivacyPolicyDialog.OnClickListener() {
-            @Override
-            public void onAccept(boolean isFirstTime) {
-                if (isFirstTime) {
-                    startActivity(intent);
-                    finish();
-                } else {
-                    handleSplashProperty();
-                }
-            }
-
-            @Override
-            public void onCancel() {
-                MyToast.showToast(SplashActivity.this, getString(R.string.accept_terms_condition));
-                privacyPolicyDialog.show();
-            }
-        });
-        privacyPolicyDialog.show();
-    }
-
-    private void addPoliciesToDialog(PrivacyPolicyDialog privacyPolicyDialog) {
-        for (int policyId : Arrays.asList(
-                R.string.policy_1,
-                R.string.policy_2,
-                R.string.policy_3,
-                R.string.policy_4)) {
-            privacyPolicyDialog.addPoliceLine(getString(policyId));
-        }
+        handleSplashProperty();
     }
 
     private void handleSplashProperty() {
